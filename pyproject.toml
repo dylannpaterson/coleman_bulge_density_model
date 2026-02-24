@@ -1,21 +1,19 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+# Add setuptools_scm to your build requirements
+requires = ["setuptools>=61.0", "setuptools_scm[toml]>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "coleman_bulge_density_model"
-version = "0.2.0"
+dynamic = ["version"]
 description = "A vectorized implementation of the Coleman et al. (2020) Milky Way bulge density model."
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
     "numpy>=1.20.0",
-    "jax>=0.4.23",
-    "jaxlib>=0.4.23"
+    "scipy>=1.7.0",
+    "jax[cpu]>=0.4.0" # Assuming you added JAX
 ]
 
-[tool.setuptools.packages.find]
-include = ["coleman_bulge_density*"]
-
-[tool.setuptools.package-data]
-"coleman_bulge_density" = ["*.npz"]
+# Add this empty block at the bottom to activate setuptools_scm
+[tool.setuptools_scm]
