@@ -45,3 +45,5 @@ lon_arr = np.zeros(100)
 densities, bounds = bulge_density_model(r=r_arr, lat=lat_arr, lon=lon_arr)
 
 ```
+
+![Hexagonal bin plot showing the spatial distribution of Milky Way bulge density samples across the celestial sphere. The plot uses a color gradient to represent density values, with brighter hexagons indicating higher density regions concentrated toward the galactic center and plane. The visualization demonstrates the model's effectiveness in capturing the bulge structure in Sun-centered coordinates.](assets/sky_hexbin_plot.png)
