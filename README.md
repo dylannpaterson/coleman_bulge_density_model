@@ -1,6 +1,6 @@
 # Coleman Bulge Density Model
 
-A vectorized implementation of the Coleman et al. (2020) Milky Way bulge density model.
+A vectorized implementation of the [Coleman et al. (2020)]((https://academic.oup.com/mnras/article/495/3/3350/5838756)) Milky Way bulge density model.
 
 ## Features
 
