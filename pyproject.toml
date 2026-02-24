@@ -18,4 +18,4 @@ dependencies = [
 include = ["coleman_bulge_density*"]
 
 [tool.setuptools.package-data]
-"coleman_bulge" = ["*.npz"]
+"coleman_bulge_density" = ["*.npz"]
