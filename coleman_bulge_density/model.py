@@ -50,6 +50,29 @@ class ColemanBulgeDensityModel:
     # We use @jax.jit to compile this entire function for massive speedups
 
     def __call__(self, r=None, lat=None, lon=None, x=None, y=None, z=None):
+        """
+        Evaluates the Milky Way bulge density at given coordinates.
+
+        The returned densities are in units of stars per pc^3, normalised to match 
+        the observed VVV star counts in the Ks band.
+
+        Users can provide coordinates in either Sun-centered spherical 
+        (r, lat, lon) or Galactic Cartesian (x, y, z) systems.
+
+        Args:
+            r (array_like, optional): Radius from the Sun (kpc).
+            lat (array_like, optional): Galactic latitude (degrees).
+            lon (array_like, optional): Galactic longitude (degrees).
+            x (array_like, optional): Cartesian X coordinate (kpc).
+            y (array_like, optional): Cartesian Y coordinate (kpc).
+            z (array_like, optional): Cartesian Z coordinate (kpc).
+
+        Returns:
+            A tuple containing:
+                - density (jax.numpy.ndarray): The bulge density at the given coordinates.
+                - in_bounds (jax.numpy.ndarray): A boolean array indicating whether 
+                  the coordinates were within the pre-computed grid.
+        """
         is_spherical = (r is not None) and (lat is not None) and (lon is not None)
         is_cartesian = (x is not None) and (y is not None) and (z is not None)
 
