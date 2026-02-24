@@ -102,7 +102,14 @@ class ColemanBulgeDensityModel:
             
         # --- 3. Combine without branching ---
         density = jnp.where(in_bounds, interp_density, extrap_density)
+
+        solid_angle = (0.2*np.pi/180.0)**2
+        kpc3_to_pc3 = (1000.0)**3
+
+        normalisation = solid_angle / kpc3_to_pc3
+        density = density * normalisation
         
+
         dens_out = density.reshape(original_shape)
         bound_out = in_bounds.reshape(original_shape)
         
