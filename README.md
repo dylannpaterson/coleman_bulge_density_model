@@ -28,6 +28,9 @@ pip install coleman-bulge-density-model
 
 To use the model, import the pre-instantiated `bulge_density_model`.
 
+The returned densities are in units of stars per pc^3, normalised to match the observed VVV star counts in the Ks band.
+
+
 ### Basic Evaluation
 
 ```python
