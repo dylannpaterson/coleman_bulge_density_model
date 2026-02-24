@@ -1,5 +1,4 @@
 [build-system]
-# Add setuptools_scm to your build requirements
 requires = ["setuptools>=61.0", "setuptools_scm[toml]>=8"]
 build-backend = "setuptools.build_meta"
 
@@ -12,8 +11,13 @@ requires-python = ">=3.8"
 dependencies = [
     "numpy>=1.20.0",
     "scipy>=1.7.0",
-    "jax[cpu]>=0.4.0" # Assuming you added JAX
+    "jax[cpu]>=0.4.0"
 ]
 
-# Add this empty block at the bottom to activate setuptools_scm
 [tool.setuptools_scm]
+
+[tool.setuptools]
+packages = ["coleman_bulge_density"]
+
+[tool.setuptools.package-data]
+"coleman_bulge_density" = ["*.npz"]
