@@ -53,8 +53,9 @@ class ColemanBulgeDensityModel:
         """
         Evaluates the Milky Way bulge density at given coordinates.
 
-        The returned densities are in units of stars per kpc^3, normalised to match 
-        the observed VVV star counts in the Ks band.
+        The returned densities are in units of stars per kpc^3, normalised to a 
+        total bulge stellar count of 30.7 x 10^9, as derived from the bulge 
+        luminosity function.
 
         Users can provide coordinates in either Sun-centered spherical 
         (r, lat, lon) or Galactic Cartesian (x, y, z) systems.
@@ -126,17 +127,12 @@ class ColemanBulgeDensityModel:
         # --- 3. Combine without branching ---
         density = jnp.where(in_bounds, interp_density, extrap_density)
 
-        # The model data was fit to VVV counts in 0.2 x 0.2 degree bins.
-        # The raw values are in units of [RC stars / pc^3 / steradian].
-        # To get the total stellar density in [stars / kpc^3], we multiply by:
-        # 1. The solid angle of the bin (to remove the per-steradian)
-        # 2. The fraction of total stars to RC stars (257.23)
-        # 3. 10^9 to convert from stars/pc^3 to stars/kpc^3
-        solid_angle = (0.2 * jnp.pi / 180.0)**2
-        pc3_to_kpc3 = (1000.0)**3
-        frac_of_RC = 257.23
-
-        density = density * solid_angle * frac_of_RC * pc3_to_kpc3
+        # Normalise the density model to a total bulge stellar count of 30.7 x 10^9.
+        # This normalization was derived by integrating the raw density 
+        # (unit: [RC stars / pc^3 / sr]) over all space and scaling to the target.
+        # Factor = (30.7 x 10^9) / Integral(raw_density) = 31735.587
+        norm_factor = 31735.587
+        density = density * norm_factor
         
         dens_out = density.reshape(original_shape)
         bound_out = in_bounds.reshape(original_shape)
@@ -170,11 +166,7 @@ class ColemanBulgeDensityModel:
         
         density = p['rho0'] / jnp.cosh(r1)**2 * (1 + p['A'] * (jnp.exp(-r2**p['n']) + jnp.exp(-r3**p['n'])))
         
-        R = jnp.sqrt(X**2 + Y**2)
-        R_cutoff = 4.5 
-        exp_cutoff = jnp.where(R < R_cutoff, 1.0, jnp.exp(-2 * (R - R_cutoff)**2))
-        
-        return density * exp_cutoff
+        return density
 
     @staticmethod
     def xyz_to_r_lat_lon(x, y, z):
